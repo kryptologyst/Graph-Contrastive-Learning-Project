@@ -1,0 +1,38 @@
+# GraphCL Configuration for Cora Dataset
+model:
+  name: "GraphCL"
+  input_dim: 1433
+  hidden_dim: 64
+  output_dim: 64
+  num_layers: 2
+  layer_type: "gcn"
+  dropout: 0.5
+  use_bn: false
+  use_residual: false
+  projection_dim: 128
+  temperature: 0.5
+
+training:
+  epochs: 100
+  lr: 0.01
+  weight_decay: 1e-4
+  batch_size: 1
+  log_interval: 10
+  save_path: "checkpoints/graphcl_cora.pth"
+
+data:
+  name: "Cora"
+  root: "data"
+  augmentation:
+    node_drop_rate: 0.2
+    edge_drop_rate: 0.1
+    feature_mask_rate: 0.1
+
+evaluation:
+  tasks: ["node_classification", "link_prediction", "clustering"]
+  metrics: ["accuracy", "f1_micro", "f1_macro", "auroc", "roc_auc", "average_precision", "nmi", "ari"]
+  save_embeddings: true
+  visualize: true
+
+device: "auto"  # auto, cuda, mps, cpu
+seed: 42

@@ -1,0 +1,38 @@
+# BGRL Configuration for PubMed Dataset
+model:
+  name: "BGRL"
+  input_dim: 500
+  hidden_dim: 64
+  output_dim: 64
+  num_layers: 2
+  layer_type: "gcn"
+  dropout: 0.5
+  use_bn: false
+  use_residual: false
+  projection_dim: 128
+  temperature: 0.5
+  momentum: 0.999
+
+training:
+  epochs: 100
+  lr: 0.01
+  weight_decay: 1e-4
+  batch_size: 1
+  log_interval: 10
+  save_path: "checkpoints/bgrl_pubmed.pth"
+
+data:
+  name: "PubMed"
+  root: "data"
+  augmentation:
+    node_drop_rate: 0.2
+    edge_drop_rate: 0.1
+
+evaluation:
+  tasks: ["node_classification", "link_prediction", "clustering"]
+  metrics: ["accuracy", "f1_micro", "f1_macro", "auroc", "roc_auc", "average_precision", "nmi", "ari"]
+  save_embeddings: true
+  visualize: true
+
+device: "auto"  # auto, cuda, mps, cpu
+seed: 42
